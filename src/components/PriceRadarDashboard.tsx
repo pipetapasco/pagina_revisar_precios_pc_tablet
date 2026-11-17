@@ -427,10 +427,10 @@ export default function PriceRadarDashboard({
   return (
     <div className="min-h-screen bg-[#090d16] text-slate-100 pb-20">
       {/* BARRA SUPERIOR Y BOTÓN DE CRON GRATUITO */}
-      <header className="sticky top-0 z-30 border-b border-slate-800/80 bg-[#090d16]/90 backdrop-blur-md">
+      <header className="lg:sticky lg:top-0 z-30 border-b border-slate-800/80 bg-[#090d16]/95 lg:backdrop-blur-md">
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div>
+            <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-500/30">
                   <Sparkles className="h-3.5 w-3.5" />
@@ -489,7 +489,7 @@ export default function PriceRadarDashboard({
                 type="button"
                 onClick={handleUpdateAllPrices}
                 disabled={isUpdating}
-                className="inline-flex items-center gap-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 px-5 py-3 text-sm font-bold text-slate-950 shadow-lg shadow-emerald-500/20 transition hover:from-emerald-400 hover:to-teal-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 disabled:cursor-wait disabled:opacity-70"
+                className="inline-flex w-full sm:w-auto justify-center items-center gap-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 px-5 py-3 text-sm font-bold text-slate-950 shadow-lg shadow-emerald-500/20 transition hover:from-emerald-400 hover:to-teal-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 disabled:cursor-wait disabled:opacity-70"
               >
                 <RefreshCw
                   className={`h-4 w-4 ${isUpdating ? "animate-spin" : ""}`}
@@ -631,8 +631,8 @@ export default function PriceRadarDashboard({
         <section className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           {/* TARJETA RESUMEN 1: GALAXY TAB S10 FE+ 12GB/256GB */}
           {bestExactTablet && (
-            <div className="relative overflow-hidden rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950/30 p-6 shadow-xl">
-              <div className="flex items-center justify-between gap-2">
+            <div className="relative min-w-0 rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950/30 p-5 sm:p-6 shadow-xl">
+              <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/20 px-3 py-1 text-xs font-bold text-emerald-300">
                   <Tablet className="h-3.5 w-3.5" />
                   OBJETIVO 1: TABLET EXACTA (12GB RAM / 256GB)
@@ -753,7 +753,7 @@ export default function PriceRadarDashboard({
                   href={bestExactTablet.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-500 px-4 py-2 text-xs font-bold text-slate-950 transition hover:bg-emerald-400"
+                  className="touch-target inline-flex w-full sm:w-auto justify-center items-center gap-1.5 rounded-xl bg-emerald-500 px-4 py-2.5 text-xs font-bold text-slate-950 transition hover:bg-emerald-400"
                 >
                   Ver en {bestExactTablet.storeName}
                   <ExternalLink className="h-3.5 w-3.5" />
@@ -764,8 +764,8 @@ export default function PriceRadarDashboard({
 
           {/* TARJETA RESUMEN 2: MEJOR PORTÁTIL EN RANGO PARA TU NOVIA */}
           {bestLaptopInBudget && (
-            <div className="relative overflow-hidden rounded-2xl border border-sky-500/30 bg-gradient-to-br from-slate-900 via-slate-900 to-sky-950/30 p-6 shadow-xl">
-              <div className="flex items-center justify-between gap-2">
+            <div className="relative min-w-0 rounded-2xl border border-sky-500/30 bg-gradient-to-br from-slate-900 via-slate-900 to-sky-950/30 p-5 sm:p-6 shadow-xl">
+              <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-sky-500/20 px-3 py-1 text-xs font-bold text-sky-300">
                   <Laptop className="h-3.5 w-3.5" />
                   OBJETIVO 2: MEJOR PORTÁTIL EN RANGO ($2.5M – $2.9M)
@@ -848,7 +848,7 @@ export default function PriceRadarDashboard({
                   href={bestLaptopInBudget.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-sky-400 px-4 py-2 text-xs font-bold text-slate-950 transition hover:bg-sky-300"
+                  className="touch-target inline-flex w-full sm:w-auto justify-center items-center gap-1.5 rounded-xl bg-sky-400 px-4 py-2.5 text-xs font-bold text-slate-950 transition hover:bg-sky-300"
                 >
                   Ver Oferta en {bestLaptopInBudget.storeName}
                   <ExternalLink className="h-3.5 w-3.5" />
@@ -1025,17 +1025,17 @@ export default function PriceRadarDashboard({
                       >
                         {tab.authenticityLabel}
                       </span>
-                      <p className="mt-1 text-xs text-slate-400 max-w-xs">
+                      <p className="mt-1 text-xs text-slate-400 md:max-w-xs">
                         {tab.authenticityReason}
                       </p>
                     </td>
 
-                    <td className="py-4 px-4 text-right">
+                    <td className="py-4 px-4 md:text-right">
                       <a
                         href={tab.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 rounded-lg bg-slate-800 px-3 py-2 text-xs font-bold text-emerald-300 transition hover:bg-emerald-500 hover:text-slate-950"
+                        className="touch-target inline-flex w-full md:w-auto justify-center items-center gap-1 rounded-lg bg-slate-800 px-3 py-2.5 text-xs font-bold text-emerald-300 transition hover:bg-emerald-500 hover:text-slate-950"
                       >
                         Ir a Tienda
                         <ExternalLink className="h-3.5 w-3.5" />
@@ -1218,7 +1218,7 @@ export default function PriceRadarDashboard({
                     key={lap.id}
                     className="transition hover:bg-slate-800/40"
                   >
-                    <th scope="row" className="py-4 px-4 font-medium text-white max-w-md">
+                    <th scope="row" className="py-4 px-4 font-medium text-white md:max-w-md">
                       <div className="flex flex-wrap items-center gap-1.5 mb-1">
                         {index === 0 && (
                           <span className="rounded bg-amber-400 px-2 py-0.5 text-[11px] font-extrabold text-slate-950">
@@ -1326,17 +1326,17 @@ export default function PriceRadarDashboard({
                         Valor real por specs:{" "}
                         {formatCop(lap.historicalBaselinePrice)}
                       </div>
-                      <p className="mt-0.5 text-[11px] text-slate-400 max-w-xs">
+                      <p className="mt-0.5 text-[11px] text-slate-400 md:max-w-xs">
                         {lap.authenticityReason}
                       </p>
                     </td>
 
-                    <td className="py-4 px-4 text-right">
+                    <td className="py-4 px-4 md:text-right">
                       <a
                         href={lap.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 rounded-lg bg-slate-800 px-3 py-2 text-xs font-bold text-sky-300 transition hover:bg-sky-400 hover:text-slate-950"
+                        className="touch-target inline-flex w-full md:w-auto justify-center items-center gap-1 rounded-lg bg-slate-800 px-3 py-2.5 text-xs font-bold text-sky-300 transition hover:bg-sky-400 hover:text-slate-950"
                       >
                         Ver Portátil
                         <ExternalLink className="h-3.5 w-3.5" />

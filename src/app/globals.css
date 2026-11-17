@@ -4,12 +4,35 @@
 
 :root {
   color-scheme: dark;
+  --target-size: 24px;
+}
+
+@media (pointer: coarse) {
+  :root {
+    --target-size: 44px;
+  }
 }
 
 body {
   background-color: #090d16;
   color: #f1f5f9;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-wrap: break-word;
+}
+
+img,
+video {
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+:where(a, code) {
+  overflow-wrap: anywhere;
+}
+
+/* Touch-friendly target sizing on mobile devices (WCAG 2.5.5) */
+:where(button, select, a.touch-target) {
+  min-block-size: var(--target-size);
 }
 
 /* Modern Web Guidance: improve-text-layout-and-legibility */
@@ -21,11 +44,11 @@ p, blockquote, li, .pretty-text {
   text-wrap: pretty;
 }
 
-/* Modern Web Guidance: responsive-table with container queries and sticky headers */
+/* Modern Web Guidance: responsive-table without trapping vertical page scroll */
 .table-wrapper {
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: visible;
   max-inline-size: 100%;
-  max-block-size: min(640px, 82vh);
   container-type: inline-size;
   border-radius: 0.75rem;
   border: 1px solid rgba(148, 163, 184, 0.16);
@@ -39,17 +62,20 @@ p, blockquote, li, .pretty-text {
 }
 
 .table-wrapper thead {
-  position: sticky;
-  inset-block-start: 0;
-  z-index: 2;
   background: #0f172a;
 }
 
 .table-wrapper tbody th {
-  position: sticky;
-  inset-inline-start: 0;
-  z-index: 1;
   background: #0f172a;
+}
+
+@media (width < 768px) {
+  .table-wrapper {
+    overflow: visible;
+    border: none;
+    background: transparent;
+    border-radius: 0;
+  }
 }
 
 @container (width < 680px) {
@@ -60,6 +86,9 @@ p, blockquote, li, .pretty-text {
   .table-wrapper th,
   .table-wrapper td {
     display: block;
+    inline-size: 100%;
+    max-inline-size: 100%;
+    box-sizing: border-box;
   }
 
   .table-wrapper thead {
@@ -69,23 +98,23 @@ p, blockquote, li, .pretty-text {
 
   .table-wrapper tbody tr {
     margin-block-end: 1rem;
-    border: 1px solid rgba(148, 163, 184, 0.2);
-    border-radius: 0.75rem;
-    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    border-radius: 0.875rem;
+    overflow: clip;
     background: rgba(15, 23, 42, 0.95);
   }
 
   .table-wrapper tbody th {
-    position: sticky;
-    inset-block-start: 0;
-    z-index: 2;
+    position: static;
     background: #1e293b;
-    padding: 0.75rem 1rem;
+    padding: 0.875rem 1rem;
+    text-align: start;
   }
 
   .table-wrapper td {
-    padding: 0.6rem 1rem;
-    border-top: 1px solid rgba(148, 163, 184, 0.1);
+    padding: 0.75rem 1rem;
+    border-top: 1px solid rgba(148, 163, 184, 0.12);
+    text-align: start;
   }
 
   .table-wrapper table.tablet-comparison-table {
@@ -107,33 +136,50 @@ p, blockquote, li, .pretty-text {
 
   .table-wrapper td:nth-child(2)::before {
     content: var(--label-2) ": ";
+    display: block;
+    margin-block-end: 0.2rem;
+    font-size: 0.75rem;
     font-weight: 600;
     color: #94a3b8;
   }
   .table-wrapper td:nth-child(3)::before {
     content: var(--label-3) ": ";
+    display: block;
+    margin-block-end: 0.2rem;
+    font-size: 0.75rem;
     font-weight: 600;
     color: #94a3b8;
   }
   .table-wrapper td:nth-child(4)::before {
     content: var(--label-4) ": ";
+    display: block;
+    margin-block-end: 0.2rem;
+    font-size: 0.75rem;
     font-weight: 600;
     color: #94a3b8;
   }
   .table-wrapper td:nth-child(5)::before {
     content: var(--label-5) ": ";
+    display: block;
+    margin-block-end: 0.2rem;
+    font-size: 0.75rem;
     font-weight: 600;
     color: #94a3b8;
   }
   .table-wrapper td:nth-child(6)::before {
     content: var(--label-6) ": ";
+    display: block;
+    margin-block-end: 0.2rem;
+    font-size: 0.75rem;
     font-weight: 600;
     color: #94a3b8;
   }
   .table-wrapper td:nth-child(7)::before {
     content: var(--label-7) ": ";
+    display: block;
+    margin-block-end: 0.2rem;
+    font-size: 0.75rem;
     font-weight: 600;
     color: #94a3b8;
   }
 }
-
