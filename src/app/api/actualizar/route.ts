@@ -18,6 +18,8 @@ export async function GET(request: NextRequest) {
   const group = request.nextUrl.searchParams.get("group") || "all";
   const notify = request.nextUrl.searchParams.get("notify") !== "false";
   const testWhatsapp = request.nextUrl.searchParams.get("testWhatsapp") === "1";
+  const includeOffers =
+    request.nextUrl.searchParams.get("includeOffers") === "1";
   const originUrl = request.nextUrl.origin;
 
   if (testWhatsapp) {
@@ -78,7 +80,19 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({
+    const bestExactTablet = persisted.enrichedOffers
+      .filter((o) => o.category === "tablet" && o.tabletSpecs?.isExactTarget)
+      .sort((a, b) => a.priceAllMethods - b.priceAllMethods)[0];
+
+    const bestLaptopInBudget = persisted.enrichedOffers
+      .filter((o) => o.category === "laptop" && o.priceAllMethods <= 2950000)
+      .sort(
+        (a, b) =>
+          (b.laptopSpecs?.hardwareScore || 0) -
+          (a.laptopSpecs?.hardwareScore || 0)
+      )[0];
+
+    const compactSummary = {
       ok: true,
       group,
       checkedAt: new Date().toISOString(),
@@ -86,12 +100,42 @@ export async function GET(request: NextRequest) {
       storageMode: persisted.storageMode,
       persistedOk: persisted.persistedOk,
       totalOffers: persisted.enrichedOffers.length,
-      offers: persisted.enrichedOffers,
-      alerts: candidateAlerts,
+      liveOffersCount: persisted.enrichedOffers.filter((o) => o.isLiveScraped)
+        .length,
+      bestExactTablet: bestExactTablet
+        ? {
+          storeName: bestExactTablet.storeName,
+          priceAllMethods: bestExactTablet.priceAllMethods,
+          realSavingsCop: bestExactTablet.realSavingsCop,
+          isLiveScraped: bestExactTablet.isLiveScraped,
+        }
+        : null,
+      bestLaptopInBudget: bestLaptopInBudget
+        ? {
+          title: bestLaptopInBudget.title.slice(0, 80),
+          storeName: bestLaptopInBudget.storeName,
+          priceAllMethods: bestLaptopInBudget.priceAllMethods,
+          score: bestLaptopInBudget.laptopSpecs?.hardwareScore ?? null,
+          isLiveScraped: bestLaptopInBudget.isLiveScraped,
+        }
+        : null,
+      alertsFoundCount: candidateAlerts.length,
       newAlertsTriggered: persisted.newAlertsToSend.length,
       skippedDuplicateCount: persisted.skippedDuplicateCount,
-      notificationResult,
-    });
+      whatsappSentCount: notificationResult.sentCount,
+      whatsappErrors: notificationResult.whatsappReport?.errors || [],
+    };
+
+    if (includeOffers) {
+      return NextResponse.json({
+        ...compactSummary,
+        offers: persisted.enrichedOffers,
+        alerts: candidateAlerts,
+        notificationResult,
+      });
+    }
+
+    return NextResponse.json(compactSummary);
   } catch (error) {
     return NextResponse.json(
       {
@@ -129,10 +173,10 @@ export async function POST(request: NextRequest) {
     const notificationResult = notify
       ? await dispatchAlertNotifications(persisted.newAlertsToSend, originUrl)
       : {
-          sentCount: 0,
-          channelsUsed: [],
-          formattedPreview: "Actualización visual sin envío de alertas.",
-        };
+        sentCount: 0,
+        channelsUsed: [],
+        formattedPreview: "Actualización visual sin envío de alertas.",
+      };
 
     return NextResponse.json({
       ok: true,
