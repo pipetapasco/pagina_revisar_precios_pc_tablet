@@ -98,6 +98,7 @@ export async function GET(request: NextRequest) {
       checkedAt: new Date().toISOString(),
       durationMs: Date.now() - startTime,
       storageMode: persisted.storageMode,
+      storageReadOk: persisted.storageReadOk,
       persistedOk: persisted.persistedOk,
       totalOffers: persisted.enrichedOffers.length,
       liveOffersCount: persisted.enrichedOffers.filter((o) => o.isLiveScraped)
@@ -183,6 +184,7 @@ export async function POST(request: NextRequest) {
       checkedAt: new Date().toISOString(),
       durationMs: Date.now() - startTime,
       storageMode: persisted.storageMode,
+      storageReadOk: persisted.storageReadOk,
       persistedOk: persisted.persistedOk,
       totalOffers: persisted.enrichedOffers.length,
       offers: persisted.enrichedOffers,

@@ -298,7 +298,7 @@ export default function PriceRadarDashboard({
   }, []);
 
   const handleUpdateAllPrices = useCallback(() => {
-    void runLiveScan(true);
+    void runLiveScan(false);
   }, [runLiveScan]);
 
   // Al montar: evita hydration mismatch y dispara el primer escaneo en vivo en segundo plano
